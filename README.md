@@ -1,3 +1,4 @@
 #javascript-starchart
 
-Star Chart created in JavaScript
+Star Chart created in JavaScript by Haurentziu
+
