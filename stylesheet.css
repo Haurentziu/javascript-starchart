@@ -116,7 +116,12 @@ a{
     outline: none;
 }
 
+#downArrows input[type="button"]:hover{
+  background-image: url(./down_hover.png);
+}
+
 #downArrows input[type="button"]{
+    opacity: 0.65;
     float: left;
     background-image: url(./down.png);
     background-size : 70% 40%;
@@ -129,7 +134,13 @@ a{
     margin-left: 10px;
 }
 
+#upArrows input[type="button"]:hover{
+  background-image: url(./up_hover.png);
+}
+
 #upArrows input[type="button"]{
+    opacity: 0.65;
+    transition: ease-in-out, width .35s ease-in-out;
     float: left;
     display: inline-block;
     background-color: white; 
@@ -143,6 +154,8 @@ a{
     height: 25px;
     margin-left: 10px;
 }
+
+
 
 #upArrows{
     position: relative;
