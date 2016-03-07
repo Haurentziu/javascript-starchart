@@ -38,6 +38,7 @@ function drawStuff(){
 	if(isPrintFr) ctx.fillStyle = "#ADC9DB"; 
 	else ctx.fillStyle = "#002C4A"; //Prussian blue
 	ctx.fillRect(0, 0, width, height);
+	ctx.fillStyle = "#00233B";
 	ctx.beginPath();
 	ctx.arc(height/2, height/2, height/2-8.8, 0, 2*Math.PI);
 	ctx.closePath();
@@ -203,13 +204,11 @@ function drawStars(){
 		else ctx.fillStyle='#FC5858';
 	ctx.beginPath();
 	for (var HR = 0; HR < stars.length; HR++){
-		if (stars[HR].mag < 5)  {
+		if (stars[HR].mag < 5.5)  {
 			var starEquatorial = calcPrecession(stars[HR].dec, stars[HR].ra);
 			coord=projectStereo(starEquatorial.dec, starEquatorial.ra, false);
 			if (coord) {
-				if(zoom == 1) size = 6*Math.pow(1.6, -stars[HR].mag);
-				else if (zoom == 2 ) size = 6*Math.pow(1.4, -stars[HR].mag);
-				else size = 7*Math.pow(1.4, -stars[HR].mag);
+				size = 5*Math.pow(1.45, -stars[HR].mag);
 				ctx.moveTo(coord.x, coord.y);
 				ctx.arc(coord.x, coord.y, size, 0, 2*Math.PI);
 				//   ctx.fillRect(coord.x, coord.y, size*2, size*2);

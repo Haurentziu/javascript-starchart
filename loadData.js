@@ -9,7 +9,7 @@ $.get("./variables.txt", function(data) {
 	id=0;
 	for (var i = 0; i < lines.length; i++) {
         data = lines[i].split(",");
-		if (data[2]<5){
+		if (data[2] < 5.5){
 			stars[id] = new Object();
 			stars[id].ra=parseFloat(data[0]);
 			stars[id].dec=parseFloat(data[1]);
