@@ -1,5 +1,5 @@
 //Symbols of messier objects
-function gcSymbol(x, y, size){
+function drawGlobularCluster(x, y, size){
 	ctx.lineWidth=1;
 	ctx.beginPath();
 	ctx.arc(x, y, size, 0, 2*Math.PI);
@@ -17,26 +17,26 @@ function gcSymbol(x, y, size){
 	ctx.stroke();		
 }
 
-function gxSymbol(x, y, height, width){
-		ctx.lineWidth=0.5;
-		ctx.save(); // save state
-        ctx.translate(x-width, y-height);
-        ctx.scale(height, width);
-		ctx.beginPath();
-        ctx.arc(1, 1, 1, 0, 2 * Math.PI, false);
-		ctx.stroke();
-		ctx.closePath();
-        ctx.restore(); // restore to original state
+function drawGalaxy(x, y, height, width){
+	ctx.lineWidth=0.5;
+	ctx.save(); 
+    ctx.translate(x-width, y-height);
+    ctx.scale(height, width);
+	ctx.beginPath();
+    ctx.arc(1, 1, 1, 0, 2 * Math.PI, false);
+	ctx.stroke();
+	ctx.closePath();
+    ctx.restore(); 
        
 }
 
-function dnSymbol(x, y, height, width){
+function drawNebula(x, y, height, width){
 	ctx.closePath();
 	ctx.lineWidth=1.2;
 	ctx.strokeRect(x, y, height, width);
 }
 
-function pnSymbol(x, y, size){
+function drawPlanetaryNebula(x, y, size){
 	ctx.lineWidth=1;
 	ctx.beginPath();
 	ctx.arc(x, y, size, 0, 2*Math.PI);
@@ -65,7 +65,7 @@ function pnSymbol(x, y, size){
 	ctx.stroke();
 }
 
-function ocSymbol(x, y, size){
+function drawOpenCluster(x, y, size){
 	ctx.lineWidth=2;
 	ctx.setLineDash([2, 2]);
 	ctx.beginPath();

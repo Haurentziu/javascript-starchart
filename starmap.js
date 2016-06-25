@@ -31,10 +31,11 @@ window.onresize=function() {
 
 var dataline="";
 
-function drawStuff(){
+//draws the starchart
+function drawStuff(){				
     var t = Date.now();
 	JD = getJD();
-	theta = SideralTime(JD)*Math.PI/180+longitude; //theta is the local sideral time
+	theta = getSideralTime(JD)*Math.PI/180+longitude; //theta is the local sideral time
 	if(isPrintFr) ctx.fillStyle = "#ADC9DB"; 
 	else ctx.fillStyle = "#002C4A"; //Prussian blue
 	ctx.fillRect(0, 0, width, height);
@@ -66,38 +67,39 @@ function drawStuff(){
 	
 	if(document.getElementById("milkyWay").checked && zoom == 1) drawMilkyWay();
 	if (document.getElementById("lines").checked) {
-		drawLines(); //draws the constellation lines
+		drawLines(); 
 	}
-	//drawBounds();
 	ctx.font = "10px Arial";
-	drawStars(); //draws the stars
+	drawStars(); 
 	if (document.getElementById("messier").checked) 
-		drawDSO(); //draws deep space objects
+		drawDSO(); 
 	ctx.font = "12px Arial";
 	if(isPrintFr) ctx.fillStyle = "#1C1C1C";
 	else ctx.fillStyle="#FCB3EA";
 	if (document.getElementById("names").checked) 
-		drawConNames(); //draws constellation names
+		drawConNames(); 
 	if(document.getElementById("planets").checked){
 	 	drawPlanets();
-		moonPos();
+		drawMoon();
 		logPos=false;
 	}
+
 	ctx.restore();
 	ctx.font = "18px Arial";
 	if(isPrintFr) ctx.fillStyle = "black";
 	else ctx.fillStyle='white';
-	ctx.fillText(date(), 14, 27);
+	ctx.fillText(getDate(), 14, 27);
 	ctx.fillText("lat: "+Math.round(lat*180000/Math.PI)/1000+"\u00B0", 14, 47);
 	ctx.fillText("long: "+Math.round(longitude*180000/Math.PI)/1000+"\u00B0", 14, 67);
 	var size= 180;
-//    ctx.drawImage(document.getElementById("logo"), height-size*0.86+3, height-size-3, size*0.86, size);
 	if(document.getElementById("points").checked) drawCardPoints();
 	ctx.lineWidth=1;
 	
     if(logTime) console.log(Date.now()-t);
 }
 
+
+//draws constellation lines
 function drawLines(){
 	var T = (JD-2451545)/36525;
 	
@@ -129,6 +131,7 @@ function drawLines(){
 	
 }
 
+//draws Milky Way
 function drawMilkyWay(){
 	ctx.lineWidth = 0.25;
 	if(isPrintFr) ctx.strokeStyle="#101010";
@@ -154,6 +157,7 @@ function drawMilkyWay(){
 	}
 }
 
+//
 function drawBounds(){
 	ctx.lineWidth = 1.2;
 	ctx.strokeStyle = "red";
@@ -184,6 +188,7 @@ function drawBounds(){
 	}
 }
 
+//renders the constellation names
 function drawConNames(){
 	for(var con = 0; con < 87; con++){
 		var nameEquatorial = calcPrecession(constellation[con].dec, constellation[con].ra);
@@ -194,6 +199,7 @@ function drawConNames(){
 	}
 }
 
+//draws the stars
 function drawStars(){
 	var T = (JD-2451545)/36525;
 	var m = 15*deg2rad(3.07496 + 0.00186*T)/3600;
@@ -225,6 +231,7 @@ function drawStars(){
 	ctx.fill();
 }
 
+//draws the deep space objects
 function drawDSO(){
 	ctx.strokeStyle='green';
 	ctx.fillStyle='#FCC868';
@@ -233,11 +240,11 @@ function drawDSO(){
 		var coord=projectStereo(coordEquatorial.dec, coordEquatorial.ra, false);
 		
 		if (coord) {
-			if (mesType[mes] == 'GC') gcSymbol(coord['x'], coord['y'], 4);
-			if (mesType[mes] == 'GX') gxSymbol(coord['x'], coord['y'], 4, 2);
-			if (mesType[mes] == 'DN') dnSymbol(coord['x'], coord['y'], 6, 6);
-			if (mesType[mes] == 'PN') pnSymbol(coord['x'], coord['y'], 3);
-			if (mesType[mes] == 'OC') ocSymbol(coord['x'], coord['y'], 4);
+			if (mesType[mes] == 'GC') drawGlobularCluster(coord['x'], coord['y'], 4);
+			if (mesType[mes] == 'GX') drawGalaxy(coord['x'], coord['y'], 4, 2);
+			if (mesType[mes] == 'DN') drawNebula(coord['x'], coord['y'], 6, 6);
+			if (mesType[mes] == 'PN') drawPlanetaryNebula(coord['x'], coord['y'], 3);
+			if (mesType[mes] == 'OC') drawOpenCluster(coord['x'], coord['y'], 4);
 			if (mesMag[mes] < 7 || zoom>1) {
 				if(isPrintFr) ctx.fillStyle="black" ;
 				else ctx.fillStyle='#FCC868';
@@ -245,11 +252,11 @@ function drawDSO(){
 			}
 		}
 	}
-	
-	//ctx.beginPath();
 }
 
-function date(){
+
+
+function getDate(){
 	var dateObj = new Date(unixTime);
 	var month = dateObj.getMonth() + 1;
 	var day = dateObj.getDate();
@@ -266,7 +273,7 @@ function date(){
 	return newdate;
 }
 
-function SideralTime(JD){
+function getSideralTime(JD){
 	//Returns sideral time in degrees!!!!!
 	var T = (JD-2451545.0)/36525;
 	var theta0 = 280.46061837+360.98564736629*(JD-2451545.0)+0.000387933*Math.pow(T, 2)-Math.pow(T, 3)/38710000;
@@ -344,7 +351,7 @@ function downloadImage(){
 	var img = document.createElement("img");
 	img.src = canv.toDataURL("image/png");
 	var url = img.src.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
-	download(url, "starmap"+date()+".png", "image/png");
+	download(url, "starmap"+getDate()+".png", "image/png");
 }
 
 function keepTime(){

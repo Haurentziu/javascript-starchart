@@ -13,8 +13,8 @@ function inputTime(){
   dateString+=("0"+document.getElementById("hour").value).slice(-2)+":";
   dateString+=("0"+document.getElementById("minute").value).slice(-2)+":";
   dateString+=("0"+document.getElementById("second").value).slice(-2)+"Z";
-  var tempUnix=new Date(dateString);
-  if(tempUnix && tempUnix<maxTime && tempUnix>minTime)
+  var tempUnix = new Date(dateString);
+  if(tempUnix && tempUnix < maxTime && tempUnix > minTime)
     unixTime = Date.parse(dateString)+timeOffset*60000;
 }
 
@@ -28,9 +28,7 @@ function dateInput() {
 }
 
 function isLeapYear(year) {
-  var leap=false;
-  if((year%4 == 0 && year%400 == 0) || (year%4 == 0 && year%100 != 0)) leap = true;
-  return leap;
+  return (year%4 == 0 && year%400 == 0) || (year%4 == 0 && year%100 != 0);
 }
  
 function writeDate(){
@@ -47,13 +45,13 @@ function timeNow(){
   unixTime=Date.now();
 }
 
-function timeAdd(seconds){
+function addTime(seconds){
   //max date is 01.01.2215; min date is 01.01.1815
-  unixTime+=seconds*1000;
+  unixTime += seconds*1000;
   drawStuff();
 }
 
-function monthCounter(sign){
+function countMonths(sign){
   var month=document.getElementById("month").value;
   if(month == 2 && isLeapYear(year)) unixTime+=29*24*3600*1000*sign;
   else if(month == 2) unixTime+=28*24*3600*1000*sign;
@@ -62,7 +60,7 @@ function monthCounter(sign){
   drawStuff();
 }
 
-function yearCounter(sign) {
+function countYears(sign) {
     var year=document.getElementById("year").value;
     unixTime+=365*24*3600*1000*sign;
     if(isLeapYear(year)) unixTime+=24*3600*1000*sign;
@@ -71,11 +69,11 @@ function yearCounter(sign) {
 
 function checkArrows(ev, seconds){
   if(ev.keyCode == 38 && unixTime < maxTime){
-    timeAdd(seconds);
+    addTime(seconds);
     writeDate();
   }
   else if(ev.keyCode == 40 && unixTime > minTime){
-    timeAdd(-seconds);
+    addTime(-seconds);
     writeDate();
   }
 }
@@ -83,22 +81,22 @@ function checkArrows(ev, seconds){
 
 function checkYear(ev, sign){
   if(ev.keyCode == 38 && unixTime < maxTime){
-    yearCounter(1);
+    countYears(1);
     writeDate();
   }
   else if(ev.keyCode == 40 && unixTime > minTime){
-    yearCounter(-1);
+    countYears(-1);
     writeDate();
   }
 }
 
 function checkMonth(ev){
   if(ev.keyCode == 38 && unixTime < maxTime){
-    monthCounter(1);
+    countMonths(1);
     writeDate();
   }
   else if(ev.keyCode == 40 && unixTime > minTime){
-    monthCounter(-1);
+    countMonths(-1);
     writeDate();
   }
 }
