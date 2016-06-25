@@ -4,7 +4,7 @@ milkyway = [];
 constellation = []
 
 
-$.get("http://haurentziu.github.io/starchart/variables.txt", function(data) {
+$.get("./variables.txt", function(data) {
     var lines = data.split('\n');
 	id=0;
 	for (var i = 0; i < lines.length; i++) {
@@ -20,7 +20,7 @@ $.get("http://haurentziu.github.io/starchart/variables.txt", function(data) {
 	}
 });
 
-$.get("http://haurentziu.github.io/starchart/constNames.txt", function(data) {
+$.get("./constNames.txt", function(data) {
     var lines = data.split('\n');
 	for (var i = 0; i < lines.length; i++) {
         data = lines[i].split(",");
@@ -37,7 +37,7 @@ function isEmpty(str) {
     return (!str || 0 === str.length);
 }
 
-$.get("http://haurentziu.github.io/starchart/milkyway.txt", function(data) {
+$.get("./milkyway.txt", function(data) {
     var lines = data.split('\n');
 	for (var i = 0; i < lines.length; i++) {
         data = lines[i].split(",");
